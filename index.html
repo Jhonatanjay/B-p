@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="Encontre peças automotivas por veículo, categoria ou código da peça.">
+  <title>Peça Certa — Catálogo automotivo</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Peça Certa início">
+      <span class="brand-mark">PC</span>
+      <span>Peça<span class="accent">Certa</span><small>CATÁLOGO AUTOMOTIVO</small></span>
+    </a>
+    <button id="installBtn" class="button button-outline hidden" type="button">Instalar app</button>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="live-dot"></span> BUSCA AUTOMOTIVA INTELIGENTE</span>
+        <h1>A peça certa para<br><span class="accent">o seu carro.</span></h1>
+        <p>Encontre peças por veículo, categoria ou código. Confira as referências antes de comprar.</p>
+        <div class="hero-points">
+          <span>✓ Busca por veículo</span><span>✓ Códigos e referências</span><span>✓ Catálogo em expansão</span>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="car-emoji">🚘</div>
+        <div class="floating-part part-one">⚙️ <span>Peças</span></div>
+        <div class="floating-part part-two">✓ <span>Compatibilidade</span></div>
+        <div class="floating-part part-three">⌕ <span>Pesquisa</span></div>
+      </div>
+    </section>
+
+    <section class="search-panel" aria-labelledby="searchTitle">
+      <div class="section-heading">
+        <div><span class="eyebrow">PASSO 1</span><h2 id="searchTitle">Selecione seu veículo</h2></div>
+        <span class="step-badge">01 / 02</span>
+      </div>
+      <form id="vehicleForm">
+        <div class="fields">
+          <label>Marca
+            <select id="brand" required>
+              <option value="">Selecione a marca</option>
+              <option>Chevrolet</option><option>Volkswagen</option><option>Fiat</option>
+              <option>Ford</option><option>Honda</option><option>Toyota</option>
+              <option>Hyundai</option><option>Renault</option><option>Nissan</option>
+              <option>Jeep</option><option>Peugeot</option><option>Citroën</option>
+              <option>Mitsubishi</option><option>BMW</option><option>Mercedes-Benz</option>
+              <option>Outra</option>
+            </select>
+          </label>
+          <label>Modelo
+            <input id="model" required placeholder="Ex.: Astra, Onix, Gol">
+          </label>
+          <label>Ano
+            <input id="year" required inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="Ex.: 2011">
+          </label>
+          <label>Motor / versão
+            <input id="engine" placeholder="Ex.: 2.0 Flex, LT 1.0">
+          </label>
+        </div>
+        <button class="button button-primary" type="submit">Encontrar peças <span>→</span></button>
+      </form>
+      <p class="privacy-note"><span>🔒</span> Não precisa informar a placa. Seus dados do veículo ficam neste navegador nesta versão de demonstração.</p>
+    </section>
+
+    <section id="catalogSection" class="catalog-section">
+      <div class="catalog-header">
+        <div><span class="eyebrow">PASSO 2</span><h2>O que você procura?</h2><p id="vehicleSummary">Selecione um veículo para personalizar sua busca.</p></div>
+        <button id="clearVehicle" class="text-button" type="button">Trocar veículo</button>
+      </div>
+      <div class="search-row">
+        <label class="search-box"><span>⌕</span><input id="partSearch" placeholder="Buscar peça ou código (ex.: filtro de óleo)" aria-label="Buscar peça ou código"></label>
+        <select id="categoryFilter" aria-label="Filtrar categoria">
+          <option value="">Todas as categorias</option><option>Motor</option><option>Freios</option>
+          <option>Suspensão</option><option>Elétrica</option><option>Filtros</option><option>Arrefecimento</option>
+        </select>
+      </div>
+      <div id="resultsMeta" class="results-meta">Peças de demonstração</div>
+      <div id="partsGrid" class="parts-grid"></div>
+      <div id="emptyState" class="empty-state hidden">
+        <div class="empty-icon">⌕</div><h3>Nenhuma peça encontrada</h3>
+        <p>Tente outro termo ou categoria. Você também pode cadastrar uma referência no painel de administração.</p>
+      </div>
+    </section>
+
+    <section class="notice">
+      <div class="notice-icon">i</div>
+      <div><strong>Importante: esta é uma versão inicial.</strong><p>As peças exibidas são exemplos para demonstrar a interface. Não representam compatibilidade confirmada com o veículo selecionado. Antes de comprar, confirme o código OEM, chassi e aplicação com o fabricante ou fornecedor.</p></div>
+    </section>
+
+    <section class="admin-panel">
+      <button class="admin-toggle" id="adminToggle" type="button" aria-expanded="false">
+        <span><span class="eyebrow">CATÁLOGO</span><strong>Adicionar referência de peça</strong></span><span id="adminChevron">＋</span>
+      </button>
+      <div id="adminBody" class="admin-body hidden">
+        <p>Cadastre uma referência para testar o catálogo. Os registros ficam salvos apenas neste navegador; não são enviados para um servidor.</p>
+        <form id="partForm" class="admin-form">
+          <label>Nome da peça<input id="newPartName" required placeholder="Ex.: Filtro de óleo"></label>
+          <div class="fields fields-two">
+            <label>Categoria<select id="newPartCategory" required><option>Motor</option><option>Freios</option><option>Suspensão</option><option>Elétrica</option><option>Filtros</option><option>Arrefecimento</option></select></label>
+            <label>Código / referência<input id="newPartCode" placeholder="Ex.: REF-123 (opcional)"></label>
+          </div>
+          <label>Marca / fabricante<input id="newPartBrand" placeholder="Ex.: fabricante (opcional)"></label>
+          <label>Aplicação / observações<input id="newPartFitment" placeholder="Ex.: confirmar ano, motor e chassi"></label>
+          <label class="checkbox-line"><input id="newPartVerified" type="checkbox"> Tenho fonte confiável que confirma a aplicação desta peça.</label>
+          <button class="button button-primary" type="submit">Salvar referência</button>
+        </form>
+        <div class="admin-actions"><button id="exportBtn" class="button button-outline" type="button">Exportar catálogo (JSON)</button><button id="resetBtn" class="text-button danger" type="button">Restaurar exemplos</button></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="footer-brand">Peça<span class="accent">Certa</span></div><p>Protótipo gratuito • Feito para evoluir com dados verificados</p><p class="footer-small">Não afiliado a montadoras. Marcas e códigos pertencem aos respectivos titulares.</p></footer>
+  <dialog id="partDialog" class="part-dialog">
+    <button id="dialogClose" class="dialog-close" aria-label="Fechar">×</button>
+    <div id="dialogContent"></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
